@@ -23,7 +23,7 @@ import ccalogging
 
 from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
 
-"""This is the NASA Astronomical Picture of the Day (APOD) Grabber and Background Setter (GBSS) module."""
+"""This is the NASA Astronomical Picture of the Day (APOD) Gnome Background Setter (GBSS) module."""
 
 ccalogging.setDebug()
 ccalogging.setConsoleOut()
