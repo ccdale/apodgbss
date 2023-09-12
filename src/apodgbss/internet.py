@@ -20,25 +20,17 @@
 import sys
 
 import ccalogging
+import requests
 
-from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
-from apodgbss.config import readConfig, writeConfig
+from apodgbss import errorNotify
 
-"""This is the NASA Astronomical Picture of the Day (APOD) Gnome Background Setter (GBSS) module."""
-
-ccalogging.setDebug()
-# ccalogging.setInfo()
-ccalogging.setConsoleOut()
 log = ccalogging.log
 
 
-def goBabe():
-    """The entry point for the apodbbss module."""
+def getUrl(xurl):
     try:
-        log.info(f"Starting {__appname__} {__version__}...")
-        cfg = readConfig()
-        # TODO: Add code here.
-        writeConfig(cfg)
-        log.info(f"{__appname__} {__version__} completed.")
+        r = requests.get(xurl)
+        r.raise_for_status()
+        return r
     except Exception as e:
-        errorExit(sys.exc_info()[2], e)
+        errorNotify(sys.exc_info()[2], e)

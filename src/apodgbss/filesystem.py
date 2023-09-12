@@ -17,28 +17,29 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 import sys
 
 import ccalogging
 
-from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
-from apodgbss.config import readConfig, writeConfig
+from apodgbss import errorExit, errorNotify, errorRaise
 
-"""This is the NASA Astronomical Picture of the Day (APOD) Gnome Background Setter (GBSS) module."""
-
-ccalogging.setDebug()
-# ccalogging.setInfo()
-ccalogging.setConsoleOut()
 log = ccalogging.log
 
 
-def goBabe():
-    """The entry point for the apodbbss module."""
+def fileNameFromString(xstr):
+    """Convert a string to a valid filename, capitalising the first letter of each word."""
     try:
-        log.info(f"Starting {__appname__} {__version__}...")
-        cfg = readConfig()
-        # TODO: Add code here.
-        writeConfig(cfg)
-        log.info(f"{__appname__} {__version__} completed.")
+        remove = "!\\/:*?\"<>|@#$%^&()+={}[].;'`,~_-"
+        for char in remove:
+            xstr = xstr.replace(char, "")
+        xstr = xstr.replace("https", "")
+        xstr = xstr.replace("http", "")
+        tmp = xstr.split(" ")
+        op = ""
+        for word in tmp:
+            if word != "":
+                op = f"{op}{word[0].upper()}{word[1:]}"
+        return op
     except Exception as e:
-        errorExit(sys.exc_info()[2], e)
+        errorNotify(sys.exc_info()[2], e)
