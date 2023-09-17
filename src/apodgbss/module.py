@@ -17,6 +17,7 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import random
 import sys
 
 import ccalogging
@@ -40,6 +41,8 @@ def goBabe():
         cfg = readConfig()
         rooturl = "/".join([cfg["NASA"]["mirrorsiteurl"], "apod"])
         links = getArchivePageLinks(rooturl)
+        chosen = random.choice(links, k=10)
+        print(chosen)
         # TODO: Add code here.
         writeConfig(cfg)
         log.info(f"{__appname__} {__version__} completed.")

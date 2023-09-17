@@ -17,8 +17,11 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+import re
 import sys
 
+from bs4 import BeautifulSoup as bs
 import ccalogging
 
 from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
@@ -32,7 +35,9 @@ def getArchivePageLinks(rooturl):
         bspage = bs(data, "html.parser")
         root = os.path.dirname(url)
         links = ["/".join([root, link.get("href")]) for link in bspage.find_all("a")]
-        return links
+        r = re.compile(r".*/ap[0-9]+\.html$")
+        xlinks = list(filter(r.match, links))
+        return xlinks
     except Exception as e:
         errorNotify(sys.exc_info()[2], e)
 

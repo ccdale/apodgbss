@@ -20,7 +20,6 @@
 import os
 import sys
 
-from bs4 import BeautifulSoup as bs
 import ccalogging
 import requests
 
