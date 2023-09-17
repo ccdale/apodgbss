@@ -25,6 +25,7 @@ import ccalogging
 from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
 from apodgbss.config import readConfig, writeConfig
 from apodgbss.links import getArchivePageLinks, getImageFromLink
+from apodgbss.xml import makeGnomePropsXML, makeSlideShowXML
 
 """This is the NASA Astronomical Picture of the Day (APOD) Gnome Background Setter (GBSS) module."""
 
