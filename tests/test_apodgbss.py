@@ -34,7 +34,7 @@ class TheException(Exception):
 
 
 def test_apodgbss_version():
-    assert __version__ == "0.2.2"
+    assert __version__ == "1.0.0"
 
 
 def test_errorNotify(caplog):
