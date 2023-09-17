@@ -42,11 +42,18 @@ def getArchivePageLinks(rooturl):
         errorNotify(sys.exc_info()[2], e)
 
 
-def getImageFromLink(linkurl):
+def getImageFromLink(rooturl, linkurl):
     try:
         data = cacheUrl(linkurl)
         bspage = bs(data, "html.parser")
         img = bspage.find("img")
-        print(img)
+        if img is not None:
+            imgurl = img.get("src")
+            pfn = cachePicture("/".join([rooturl, imgurl]), imgdata)
+            log.info(f"image cached at {pfn}")
+            return pfn
+        else:
+            log.info(f"no image found at {linkurl}")
+            return None
     except Exception as e:
         errorNotify(sys.exc_info()[2], e)

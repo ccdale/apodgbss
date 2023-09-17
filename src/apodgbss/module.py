@@ -43,7 +43,7 @@ def goBabe():
         links = getArchivePageLinks(rooturl)
         chosen = random.choices(links, k=10)
         for c in chosen:
-            getImageFromLink(c)
+            getImageFromLink(rooturl, c)
         # print(chosen)
         # TODO: Add code here.
         writeConfig(cfg)
