@@ -27,6 +27,8 @@ import ccalogging
 from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
 from apodgbss.cache import cacheUrl, cachePicture
 
+log = ccalogging.log
+
 
 def getArchivePageLinks(rooturl):
     try:
@@ -49,7 +51,7 @@ def getImageFromLink(rooturl, linkurl):
         img = bspage.find("img")
         if img is not None:
             imgurl = img.get("src")
-            pfn = cachePicture("/".join([rooturl, imgurl]), imgdata)
+            pfn = cachePicture("/".join([rooturl, imgurl]))
             log.info(f"image cached at {pfn}")
             return pfn
         else:
