@@ -38,6 +38,7 @@ def goBabe():
         log.info(f"Starting {__appname__} {__version__}...")
         cfg = readConfig()
         rooturl = cfg["NASA"]["mirrorsiteurl"]
+        archiveurl = "/".join([rooturl, "apod/archivepix.html"])
         # TODO: Add code here.
         writeConfig(cfg)
         log.info(f"{__appname__} {__version__} completed.")

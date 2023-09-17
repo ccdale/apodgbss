@@ -17,12 +17,55 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+from pathlib import Path
 import sys
 
 import ccalogging
 
-from apodgbss import errorExit, errorNotify, errorRaise
+from apodgbss import __appname__, errorExit, errorNotify, errorRaise
+from apodgbss.filesystem import cleanFileName
+from apodgbss.internet import getUrl
 
 """cache module for apodgbss."""
 
 log = ccalogging.log
+
+
+def cacheUrl(url):
+    try:
+        cachedir = Path.home() / ".cache" / __appname__
+        if not cachedir.exists():
+            log.info(f"Creating cache directory {cachedir}")
+            cachedir.mkdir(parents=True)
+        ufn = cachedir / cleanFileName(url)
+        if not ufn.exists():
+            log.info(f"Downloading {url} to {ufn}")
+            r = getUrl(url)
+            ufn.write_text(r.text)
+            data = r.text
+        else:
+            log.info(f"URL {url} already cached at {ufn}")
+            with open(ufn, "r") as f:
+                data = f.read()
+        return data
+    except Exception as e:
+        errorRaise(sys.exc_info()[2], e)
+
+
+def cachePicture(url):
+    try:
+        picdir = Path.home() / "Pictures" / __appname__
+        if not picdir.exists():
+            log.info(f"Creating picture cache directory {picdir}")
+            picdir.mkdir(parents=True)
+        pfn = picdir / os.path.basename(url)
+        if not pfn.exists():
+            log.info(f"Downloading Picture {url} to {pfn}")
+            r = getUrl(url)
+            pfn.write_bytes(r.content)
+        else:
+            log.info(f"Picture {url} already cached at {pfn}")
+        return str(pfn)
+    except Exception as e:
+        errorRaise(sys.exc_info()[2], e)
