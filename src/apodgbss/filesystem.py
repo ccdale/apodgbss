@@ -52,3 +52,13 @@ def cleanFileName(xstr):
         return re.sub(r"[^a-zA-Z0-9]", "", xstr)
     except Exception as e:
         errorNotify(sys.exc_info()[2], e)
+
+
+def writeLines(fn, lines):
+    try:
+        with open(fn, "w") as f:
+            for line in lines[:-1]:
+                f.write(line + "\n")
+            f.write(lines[-1])
+    except Exception as e:
+        errorRaise(sys.exc_info()[2], e)

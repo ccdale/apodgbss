@@ -17,6 +17,7 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from pathlib import Path
 import random
 import sys
 
@@ -24,6 +25,7 @@ import ccalogging
 
 from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
 from apodgbss.config import readConfig, writeConfig
+from apodgbss.filesystem import writeLines
 from apodgbss.links import getArchivePageLinks, getImageFromLink
 from apodgbss.xml import makeGnomePropsXML, makeSlideShowXML
 
@@ -48,8 +50,17 @@ def goBabe():
             pfn = getImageFromLink(rooturl, c)
             if pfn is not None:
                 pictures.append(pfn)
-        print(pictures)
-        # TODO: Add code here.
+        localpath = Path.home() / ".local" / "share"
+        ssdir = "/".join([str(localpath), "gnome-background-slideshows"])
+        propdir = "/".join([str(localpath), "gnome-background-properties"])
+        ssfn = "/".join([ssdir, "apod.xml"])
+        propfn = "/".join([propdir, "apod.xml"])
+        sslines = makeSlideShowXML(pictures)
+        writeLines(ssfn, sslines)
+        log.info(f"Slide show XML written to {ssfn}.")
+        proplines = makeGnomePropsXML("APOD", ssfn)
+        writeLines(propfn, proplines)
+        log.info(f"Properties XML written to {propfn}.")
         writeConfig(cfg)
         log.info(f"{__appname__} {__version__} completed.")
     except Exception as e:
