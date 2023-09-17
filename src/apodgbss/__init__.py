@@ -21,7 +21,7 @@ import sys
 
 import ccalogging
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __appname__ = "apodgbss"
 
 log = ccalogging.log

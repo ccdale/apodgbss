@@ -51,7 +51,7 @@ def goBabe():
             if pfn is not None:
                 pictures.append(pfn)
         localpath = Path.home() / ".local" / "share"
-        ssdir = "/".join([str(localpath), "gnome-background-slideshows"])
+        ssdir = "/".join([str(localpath), "gnome-wallpaper-slideshows"])
         propdir = "/".join([str(localpath), "gnome-background-properties"])
         ssfn = "/".join([ssdir, "apod.xml"])
         propfn = "/".join([propdir, "apod.xml"])
