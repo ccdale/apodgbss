@@ -18,6 +18,7 @@
 #
 
 import os
+import re
 import sys
 
 import ccalogging
@@ -41,5 +42,13 @@ def fileNameFromString(xstr):
             if word != "":
                 op = f"{op}{word[0].upper()}{word[1:]}"
         return op
+    except Exception as e:
+        errorNotify(sys.exc_info()[2], e)
+
+
+def cleanFileName(xstr):
+    """Convert a string to a valid filename stub, removing invalid characters."""
+    try:
+        return re.sub(r"[^a-zA-Z0-9]", "", xstr)
     except Exception as e:
         errorNotify(sys.exc_info()[2], e)

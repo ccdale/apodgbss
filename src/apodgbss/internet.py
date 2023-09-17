@@ -17,8 +17,10 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 import sys
 
+from bs4 import BeautifulSoup as bs
 import ccalogging
 import requests
 
@@ -32,5 +34,28 @@ def getUrl(xurl):
         r = requests.get(xurl)
         r.raise_for_status()
         return r
+    except Exception as e:
+        errorNotify(sys.exc_info()[2], e)
+
+
+def getArchivePageLinks(rooturl):
+    try:
+        # url = "https://apod.nasa.gov/apod/archivepix.html"
+        url = "/".join([rooturl, "archivepix.html"])
+        r = getUrl(url)
+        bspage = bs(r.text, "html.parser")
+        root = os.path.dirname(url)
+        links = ["/".join([root, link.get("href")]) for link in bspage.find_all("a")]
+        return links
+    except Exception as e:
+        errorNotify(sys.exc_info()[2], e)
+
+
+def getImageFromLink(link):
+    try:
+        r = getUrl(link)
+        bspage = bs(r.text, "html.parser")
+        img = bspage.find("img")
+        pass
     except Exception as e:
         errorNotify(sys.exc_info()[2], e)

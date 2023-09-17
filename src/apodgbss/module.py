@@ -37,6 +37,7 @@ def goBabe():
     try:
         log.info(f"Starting {__appname__} {__version__}...")
         cfg = readConfig()
+        rooturl = cfg["NASA"]["mirrorsiteurl"]
         # TODO: Add code here.
         writeConfig(cfg)
         log.info(f"{__appname__} {__version__} completed.")
