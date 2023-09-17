@@ -22,26 +22,26 @@ import sys
 import ccalogging
 
 from apodgbss import __version__, __appname__, errorExit, errorNotify, errorRaise
-from apodgbss.config import readConfig, writeConfig
-from apodgbss.links import getArchivePageLinks, getImageFromLink
-
-"""This is the NASA Astronomical Picture of the Day (APOD) Gnome Background Setter (GBSS) module."""
-
-ccalogging.setDebug()
-# ccalogging.setInfo()
-ccalogging.setConsoleOut()
-log = ccalogging.log
+from apodgbss.cache import cacheUrl, cachePicture
 
 
-def goBabe():
-    """The entry point for the apodbbss module."""
+def getArchivePageLinks(rooturl):
     try:
-        log.info(f"Starting {__appname__} {__version__}...")
-        cfg = readConfig()
-        rooturl = "/".join([cfg["NASA"]["mirrorsiteurl"], "apod"])
-        links = getArchivePageLinks(rooturl)
-        # TODO: Add code here.
-        writeConfig(cfg)
-        log.info(f"{__appname__} {__version__} completed.")
+        url = "/".join([rooturl, "archivepix.html"])
+        data = cacheUrl(url)
+        bspage = bs(data, "html.parser")
+        root = os.path.dirname(url)
+        links = ["/".join([root, link.get("href")]) for link in bspage.find_all("a")]
+        return links
     except Exception as e:
-        errorExit(sys.exc_info()[2], e)
+        errorNotify(sys.exc_info()[2], e)
+
+
+def getImageFromLink(link):
+    try:
+        r = getUrl(link)
+        bspage = bs(r.text, "html.parser")
+        img = bspage.find("img")
+        pass
+    except Exception as e:
+        errorNotify(sys.exc_info()[2], e)
