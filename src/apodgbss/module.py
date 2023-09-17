@@ -42,7 +42,9 @@ def goBabe():
         rooturl = "/".join([cfg["NASA"]["mirrorsiteurl"], "apod"])
         links = getArchivePageLinks(rooturl)
         chosen = random.choices(links, k=10)
-        print(chosen)
+        for c in chosen:
+            getImageFromLink(c)
+        # print(chosen)
         # TODO: Add code here.
         writeConfig(cfg)
         log.info(f"{__appname__} {__version__} completed.")

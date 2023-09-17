@@ -42,11 +42,11 @@ def getArchivePageLinks(rooturl):
         errorNotify(sys.exc_info()[2], e)
 
 
-def getImageFromLink(link):
+def getImageFromLink(linkurl):
     try:
-        r = getUrl(link)
-        bspage = bs(r.text, "html.parser")
+        data = cacheUrl(linkurl)
+        bspage = bs(data, "html.parser")
         img = bspage.find("img")
-        pass
+        print(img)
     except Exception as e:
         errorNotify(sys.exc_info()[2], e)
