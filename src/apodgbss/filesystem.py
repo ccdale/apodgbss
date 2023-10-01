@@ -91,11 +91,12 @@ def filterDir(directory, filter=[".jpg", ".png", ".jpeg"]):
         if not os.path.isdir(directory):
             raise Exception(f"filterDirectory: Directory {directory} not found.")
         files = os.listdir(directory)
-        return [
+        filteredf = [
             f
             for f in files
             if os.path.splitext(f)[1].lower() in filter
             and os.path.isfile(os.path.join(directory, f))
         ]
+        return [os.path.join(directory, f) for f in filteredf]
     except Exception as e:
         errorRaise(sys.exc_info()[2], e)
