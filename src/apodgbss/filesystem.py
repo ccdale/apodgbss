@@ -17,6 +17,7 @@
 #     along with apodgbss.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from pathlib import Path
 import os
 import re
 import sys
@@ -60,5 +61,41 @@ def writeLines(fn, lines):
             for line in lines[:-1]:
                 f.write(line + "\n")
             f.write(lines[-1])
+    except Exception as e:
+        errorRaise(sys.exc_info()[2], e)
+
+
+def findProperDirectory(directory):
+    try:
+        if os.path.isdir(directory):
+            return directory
+        xdir = os.path.abspath(directory)
+        if os.path.isdir(xdir):
+            return xdir
+        xdir = os.path.abspath(os.path.expanduser(directory))
+        if os.path.isdir(xdir):
+            return xdir
+        xdir = Path.home() / directory
+        if xdir.is_dir():
+            return xdir
+        xdir = Path.home() / "Pictures" / directory
+        if xdir.is_dir():
+            return xdir
+        raise Exception(f"Directory {directory} not found.")
+    except Exception as e:
+        errorRaise(sys.exc_info()[2], e)
+
+
+def filterDir(directory, filter=[".jpg", ".png", ".jpeg"]):
+    try:
+        if not os.path.isdir(directory):
+            raise Exception(f"filterDirectory: Directory {directory} not found.")
+        files = os.listdir(directory)
+        return [
+            f
+            for f in files
+            if os.path.splitext(f)[1].lower() in filter
+            and os.path.isfile(os.path.join(directory, f))
+        ]
     except Exception as e:
         errorRaise(sys.exc_info()[2], e)
