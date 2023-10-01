@@ -48,7 +48,7 @@ def doDir():
         propdir = "/".join([str(localpath), "gnome-background-properties"])
         ssfn = "/".join([ssdir, f"{xname}.xml"])
         propfn = "/".join([propdir, f"{xname}.xml"])
-        sslines = makeSlideShowXML(pics)
+        sslines = makeSlideShowXML(pics, xname=xname)
         writeLines(ssfn, sslines)
         log.info(f"Slide show XML written to {ssfn}.")
         proplines = makeGnomePropsXML("APOD", ssfn)

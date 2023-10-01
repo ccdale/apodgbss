@@ -75,10 +75,10 @@ def makeTransition(root, fromfile, tofile, transduration=2):
         errorNotify(sys.exc_info()[2], e)
 
 
-def makeSlideShowXML(fqfns, duration=60, transduration=2):
+def makeSlideShowXML(fqfns, duration=60, transduration=2, xname=__appname__):
     try:
         cnfiles = len(fqfns)
-        log.info(f"new slideshow with {cnfiles} picture files for {__appname__}")
+        log.info(f"new slideshow with {cnfiles} picture files for {xname}")
         background = ET.Element("background")
         for cn, fqfn in enumerate(fqfns):
             makeStatic(background, fqfn, duration)
